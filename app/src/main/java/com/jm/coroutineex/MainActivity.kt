@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.jm.coroutineex.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import java.time.LocalDateTime
@@ -12,12 +15,19 @@ import java.time.format.DateTimeFormatter
 import kotlin.time.measureTimedValue
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel : MainViewModel
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        binding.viewModel = viewModel
+        
+//        setContentView(R.layout.activity_main)
 
-        val formatter = DateTimeFormatter.ISO_LOCAL_TIME
+//        val formatter = DateTimeFormatter.ISO_LOCAL_TIME
 
         // launch , join
 //        val job_l = CoroutineScope(Dispatchers.Default).launch{
@@ -56,33 +66,35 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         // suspend
-        suspend fun suspendFunc(){
-            for(i in 0..10){
-                Log.e("Jaemu>>","$i")
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            launch{
-                for (i in 11..20){
-                    delay(500)
-                    Log.e("Jaemu>>","코루틴 $i")
-                }
-            }
-
-            suspendFunc()
-
-            launch{
-                for (i in 21..30){
-                    delay(500)
-                    Log.e("Jaemu>>","코루틴 $i")
-                }
-            }
-        }
-
-
-//        button.setOnClickListener {
-//            job.cancel()
+//        suspend fun suspendFunc(){
+//            for(i in 0..10){
+//                Log.e("Jaemu>>","$i")
+//            }
 //        }
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            launch{
+//                for (i in 11..20){
+//                    delay(500)
+//                    Log.e("Jaemu>>","코루틴 $i")
+//                }
+//            }
+//
+//            suspendFunc()
+//
+//            launch{
+//                for (i in 21..30){
+//                    delay(500)
+//                    Log.e("Jaemu>>","코루틴 $i")
+//                }
+//            }
+//        }
+        ////////////////////////////////////////////////////////////////
+
+
+
     }
+
+
+
 }
